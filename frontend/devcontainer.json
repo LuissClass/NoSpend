@@ -1,0 +1,21 @@
+{
+  "name": "Frontend Dev Container",
+  "dockerFile": "Dockerfile",
+
+  "context": "..",
+
+  "forwardPorts": [5173],
+
+  "postCreateCommand": "npm install",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next"
+      ]
+    }
+  }
+}

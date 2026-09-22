@@ -1,0 +1,4 @@
+export function Card({children,className=""}){return <div className={`rounded-2xl border border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-xl ${className}`}>{children}</div>}
+export function Button({children,className="",variant="primary",...p}){const c=variant==="primary"?"bg-emerald-500 text-black hover:bg-emerald-400":"border border-slate-700 bg-slate-900 hover:bg-slate-800";return <button className={`rounded-xl px-4 py-2 font-semibold transition disabled:opacity-50 ${c} ${className}`} {...p}>{children}</button>}
+export function Input({className="",...p}){return <input className={`w-full rounded-xl border border-slate-700 bg-slate-950 px-3 py-2 outline-none focus:border-emerald-400 ${className}`} {...p}/>}
+export function Badge({children}){return <span className="rounded-full bg-slate-800 px-2.5 py-1 text-xs text-slate-300">{children}</span>}

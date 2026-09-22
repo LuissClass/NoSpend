@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: onlymymoney
+      POSTGRES_USER: onlymymoney
+      POSTGRES_PASSWORD: onlymymoney
+    ports: ["5432:5432"]
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U onlymymoney -d onlymymoney"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  backend:
+    build: ./backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/onlymymoney
+      SPRING_DATASOURCE_USERNAME: onlymymoney
+      SPRING_DATASOURCE_PASSWORD: onlymymoney
+      CORS_ALLOWED_ORIGINS: http://localhost:5173
+    ports: ["8080:8080"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: http://localhost:8080/api
+    ports: ["5173:5173"]
+    depends_on: [backend]
+volumes:
+  postgres_data:
