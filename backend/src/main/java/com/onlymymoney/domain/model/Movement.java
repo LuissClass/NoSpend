@@ -5,3 +5,5 @@ public record Movement(Long id, Long accountId, String concept, LocalDate date, 
                        BigDecimal availableBalance, ImportStatus status, Long categoryId) {
  public boolean isExpense(){ return amount.signum()<0; }
 }
+
+// TODO LOS MOVIMIENTOS NO DEBEN TENER CATEGORIA

@@ -1,20 +1,14 @@
 {
   "name": "Frontend Dev Container",
-  "dockerFile": "Dockerfile",
-
-  "context": "..",
-
+  "image": "node:22-alpine",
   "forwardPorts": [5173],
-
   "postCreateCommand": "npm install",
-
   "customizations": {
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
-        "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss",
-        "ms-vscode.vscode-typescript-next"
+        "dsznajder.es7-react-js-snippets",
+        "esbenp.prettier-vscode"
       ]
     }
   }

@@ -1,0 +1,10 @@
+IBAN;Saldo disponible;Periodo
+ES1234567890123456789012;119,91;01/04/2026 - 20/09/2026
+Concepto;Fecha;Importe;Saldo disponible
+Pago supermercado;03/04/2026;-23,45EUR;96,46EUR
+Ingreso nomina;30/04/2026;1500,00EUR;1596,46EUR
+Recibo luz;15/05/2026;-54,20EUR;1542,26EUR
+Compra online;02/06/2026;-89,99EUR;1452,27EUR
+Transferencia recibida;10/07/2026;200,00EUR;1652,27EUR
+Recibo agua;18/08/2026;-32,10EUR;1620,17EUR
+Pago restaurante;05/09/2026;-45,00EUR;1575,17EUR

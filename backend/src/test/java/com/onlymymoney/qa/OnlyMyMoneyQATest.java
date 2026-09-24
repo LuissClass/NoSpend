@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentCaptor;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -26,6 +27,9 @@ import static org.mockito.Mockito.*;
  * Tests that require a real browser, Docker/PostgreSQL or visual verification
  * remain manual/e2e checks; these tests cover the deterministic application rules.
  */
+
+// TODO TEST CON DIFERENTES FORMATOS DE FECHA
+
 class OnlyMyMoneyQATest {
 
     static final Long ACCOUNT = 1L;
@@ -44,7 +48,7 @@ class OnlyMyMoneyQATest {
     @Test @DisplayName("TC-003/004 / FR-03: import lifecycle reaches examining or ignored")
     void importLifecycle() {
         OpenCsvMovementReader reader = new OpenCsvMovementReader();
-        String csv = "concept,date,amount,available_balance\nGood,2026-09-19,-34.50,100.00\nBad,not-a-date,-5.00,95.00\n";
+        String csv = "concepto,fecha,importe,saldo_disponible\nGood,2026-09-19,-34.50,100.00\nBad,not-a-date,-5.00,95.00\n";
         List<Movement> rows = reader.read(in(csv), ACCOUNT);
         assertEquals(2, rows.size());
         assertEquals(ImportStatus.CSV, rows.get(0).status());
@@ -54,11 +58,27 @@ class OnlyMyMoneyQATest {
     @Test @DisplayName("TC-001 / FR-01: supported CSV is parsed")
     void validCsvIsAccepted() {
         OpenCsvMovementReader reader = new OpenCsvMovementReader();
-        String csv = "concept,date,amount,available_balance\nMERCADONA,2026-09-19,-34.50,965.50\n";
+        String csv = "concepto,fecha,importe,saldo_disponible\nMERCADONA,2026/09/19,-34.50,965.50\n";
         List<Movement> rows = reader.read(in(csv), ACCOUNT);
         assertEquals(1, rows.size());
         assertEquals("MERCADONA", rows.get(0).concept());
         assertEquals(new BigDecimal("-34.50"), rows.get(0).amount());
+    }
+
+    @Test
+    @DisplayName("TC-002 / FR-01: supported CSV file is parsed")
+    void validCsvFileIsAccepted() throws Exception {
+        OpenCsvMovementReader reader = new OpenCsvMovementReader();
+
+        try (InputStream in = getClass().getResourceAsStream("/movimientos.csv")) {
+            assertNotNull(in, "CSV file not found in resources");
+
+            List<Movement> rows = reader.read(in, ACCOUNT);
+
+            assertEquals(7, rows.size());
+            assertEquals("Pago supermercado", rows.get(0).concept());
+            assertEquals(new BigDecimal("-23.45"), rows.get(0).amount());
+        }
     }
 
     @Test @DisplayName("TC-002 / FR-02: missing required CSV column is rejected")
@@ -71,7 +91,7 @@ class OnlyMyMoneyQATest {
     @Test @DisplayName("TC-004 / FR-02: malformed movement is represented as ignored data")
     void malformedMovementBecomesIgnored() {
         OpenCsvMovementReader reader = new OpenCsvMovementReader();
-        String csv = "concept,date,amount,available_balance\nMERCADONA,not-a-date,-34.50,965.50\n";
+        String csv = "concepto,fecha,importe,saldo_disponible\nMERCADONA,not-a-date,-34.50,965.50\n";
         Movement row = reader.read(in(csv), ACCOUNT).get(0);
         assertEquals(ImportStatus.IGNORED, row.status());
     }
