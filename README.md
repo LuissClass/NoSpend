@@ -57,21 +57,3 @@ npm run dev
 
 Set `VITE_API_URL=http://localhost:8080/api` if needed.
 
-## API
-
-- `GET /api/accounts`
-- `POST /api/accounts`
-- `GET /api/accounts/{id}`
-- `GET /api/accounts/{id}/categories`
-- `POST /api/accounts/{id}/categories`
-- `POST /api/accounts/{id}/categories/transfer`
-- `GET /api/accounts/{id}/movements?limit=50&categoryId=...`
-- `POST /api/accounts/{id}/imports`
-- `POST /api/accounts/{id}/imports/confirm`
-- `GET /api/accounts/{id}/reports/expenses`
-
-## Out of scope
-
-Direct bank connection, many bank entities, investments, cryptocurrencies, fiscal management and shared accounts remain outside the initial scope.
-
-Future ideas such as category automation, period reports, expense evolution, recurring-expense detection, goals and mobile are not silently treated as MVP requirements.
